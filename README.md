@@ -24,25 +24,31 @@ check [special cases](#special).
 
 # RUN
 
-The repo includes **docker-compose.yml**. To use it run:
+The repo includes **docker-compose.yml** for a dev setup with app code mounted as a volume for the Python container. To use it run:
 
 ```bash
 docker-compose up
 ```
 
-You can `curl http://0.0.0.0:5000/tadek` as soon as containers are started.
+You can `curl http://0.0.0.0:5000` as soon as containers are started.
 App code volume is mounted live to the container and the app is run with 
 `gunicorn --max-requests=1` so that each manual debugging request reloads code.
 
 ## toot.py
 
-[`toot`](./bin/toot.py) is a Python minitool for calling the API with
+[`toot`](./bin/toot.py) is a Python tool for calling the API with
 input and output data specified in YAML.
 
 Input data for `POST` and `PUT` requests is read from `stdin`
-(press Ctrl+D in empty line to finish)
+(press Ctrl+D in empty line to finish).
 
-This toy requires `requests` and `yaml` packages in Python 3 versions (`pip3`).
+The default root `http://0.0.0.0:5000` can be overriden with `JMBK_URI` env var.
+
+<div style="color: #700; border: 1px solid #700; padding-left: 1rem">
+
+**This toy requires `requests` and `PyYAML` packages in Python 3 versions (`pip3`).**
+
+</div>
 
 #### Usage:
 
@@ -52,7 +58,7 @@ This toy requires `requests` and `yaml` packages in Python 3 versions (`pip3`).
 
 ## durl
 
-[`durl`](./bin/durl) is a little wrapper for curl, preset to go to
+[`durl`](./bin/durl) is a bashscript wrapper for curl, preset to go to
 `http://0.0.0.0:5000` and to send response to `json_pp`.
 - Main parameter is the path.
 - It can be followed by JSON data (remember to use quotes!) for POST and PUT
@@ -73,14 +79,14 @@ make
 ```
 
 ```
-make build
+make deploy
 ```
 
 Default target builds the dev container as `akseiya/jammer-backend-dev`
 with [dev dockerfile](./docker/Dockerfile.dev),as expected by the 
 [docker-compose.yml](./docker-compose.yml).
 
-`build` target only needs to be run for deployments.
+`deploy` target builds the deployable image (with app code copied inside).
 
 <a name="special"></a>
 
@@ -98,7 +104,7 @@ You then need to:
 - make sure you have Python 3.8 and its very own PIP;
 - install dependencies with the right PIP;
 - point `python` to Python 3.8;
-- run Mongo standalone listening where Eve expects it;
+- ***run Mongo standalone listening where Eve expects it***;
 - run `gunicorn --max-requests=1 -b 0.0.0.0:5000 app.app:app` from repo root;
 - pray.
 

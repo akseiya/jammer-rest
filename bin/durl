@@ -17,7 +17,9 @@ if [ "$1" ]; then
     shift
 fi
 
+root="${JMBK_URI:-http://0.0.0.0:5000}"
+
 echo curl -s -S $verb $data                  \
      -H '"'Content-Type: application/json'"' \
      "$@"                                    \
-     "http://0.0.0.0:5000/$path" | bash | json_pp
+     "$root/$path" | bash | json_pp

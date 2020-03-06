@@ -1,6 +1,6 @@
-default: devbld
+default: dev
 
-build:
+deploy:
 	docker build \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
@@ -8,7 +8,7 @@ build:
 		-t akseiya/jammer-backend \
 		-f docker/deploy.Dockerfile .
 
-devbld:
+dev:
 	docker build \
 		--build-arg VCS_REF=`git rev-parse --short HEAD` \
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
