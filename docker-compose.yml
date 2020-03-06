@@ -1,0 +1,13 @@
+version: '3'
+services:
+    web:
+        image: akseiya/jammer-backend-dev
+        ports:
+            - "5000:5000"
+        volumes:
+            - .:/usr/src/app
+        depends_on:
+            - mongo
+
+    mongo:
+        image: mongo

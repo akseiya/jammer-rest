@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Main parameter is the path.
+# It can be followed by JSON data for POST and PUT
+# It can be preceded by 'put' or 'del' to send a PUT/DELETE request.
+
+case "$1" in
+    put) verb="-X PUT";    shift;;
+    del) verb="-X DELETE"; shift;;
+esac
+
+path=$1
+shift
+
+if [ "$1" ]; then
+    data="-d '$1'"
+    shift
+fi
+
+echo curl -s -S $verb $data                  \
+     -H '"'Content-Type: application/json'"' \
+     "$@"                                    \
+     "http://0.0.0.0:5000/$path" | bash | json_pp

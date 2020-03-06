@@ -1,0 +1,22 @@
+unconfirmed_users: &basic_users
+    schema: &basic_users_schema
+        email:
+            type:      string
+            minlength: 6
+            maxlength: 100
+            unique:    True
+            required:  True
+    resource_methods:
+        - GET
+        - POST
+    item_methods:
+        - GET
+        - PUT
+        - DELETE
+users:
+    <<: *basic_users
+    schema:
+        <<: *basic_users_schema
+        activation_time:
+            type:     datetime
+            required: True
