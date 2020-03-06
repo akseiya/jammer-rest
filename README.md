@@ -32,7 +32,7 @@ docker-compose up
 
 You can `curl http://0.0.0.0:5000` as soon as containers are started.
 App code volume is mounted live to the container and the app is run with 
-`gunicorn --max-requests=1` so that each manual debugging request reloads code.
+`gunicorn --max-requests=1` for shotgun mode.
 
 ## toot.py
 
